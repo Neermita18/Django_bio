@@ -1,0 +1,223 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bioinformatics Timeline</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            animation: star-animation linear infinite;
+        }
+
+        @keyframes star-animation {
+            from {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            to {
+                transform: translate(var(--star-end-x), var(--star-end-y));
+                opacity: 1;
+            }
+        }
+
+        .timeline-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            height:90px;
+            background-color:none;
+            overflow: hidden;
+            position: relative;
+            border-color:none;
+            padding-top: 10px;
+        }
+
+        .timeline {
+            overflow: scroll;
+            overflow-y: hidden;
+            display: flex;
+            white-space: nowrap;
+            color: white;
+            padding-top: 5px;
+            padding-bottom:10px;
+            background-color:light-blue;
+           
+            position: relative;
+        }
+
+        .timeline-item {
+            position: relative;
+            background-color: gray;
+            margin: 0 20px;
+            padding-top:10px;
+            padding-bottom:10px;
+            border-radius: 5px;
+            padding-right:10px;
+            
+            padding-left:10px;
+            font-size: 20px; /* Ensures year size consistency */
+            transition: background-color 0.3s;
+        }
+
+        .timeline-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .timeline-item .popup {
+            display: none;
+            position: absolute;
+            height=5000px;
+            bottom: 25px;
+            left: 50%;
+            height:100%;
+            transform: translateX(-50%);
+            background: white;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: normal;
+            z-index: 10;
+            width: 200px;
+            overflow:auto;
+        }
+
+        .timeline-item:hover .popup {
+            display: block;
+            height:5000px;
+            width:100px;
+            overflow:visible;
+            
+        }
+
+        .horizontal-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: white;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="timeline-container">
+        <div class="timeline" id="timeline">
+            {% for year in years %}
+            <div class="timeline-item" data-year="{{ year }}">
+                <div class="year">{{ year }}</div>
+                <div class="popup" id="popup-{{ year }}"></div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="horizontal-line"></div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const timeline = document.getElementById('timeline');
+            let isDragging = false;
+            let startX;
+            let scrollLeft;
+
+            const numStars = 50;
+            const starsContainer = document.getElementById('stars');
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animationDuration = `${Math.random() * 10 + 5}s`;
+                star.style.setProperty('--star-end-x', `${Math.random() * 2000 - 1000}px`);
+                star.style.setProperty('--star-end-y', `${Math.random() * 2000 - 1000}px`);
+                starsContainer.appendChild(star);
+            }
+
+            const handleMouseDown = (e) => {
+                isDragging = true;
+                startX = e.pageX - timeline.offsetLeft;
+                scrollLeft = timeline.scrollLeft;
+                document.body.style.cursor = 'grabbing';
+            };
+
+            const handleMouseLeave = () => {
+                isDragging = false;
+                document.body.style.cursor = 'default';
+            };
+
+            const handleMouseUp = () => {
+                isDragging = false;
+                document.body.style.cursor = 'default';
+            };
+
+            const handleMouseMove = (e) => {
+                if (!isDragging) return;
+                e.preventDefault();
+                const x = e.pageX - timeline.offsetLeft;
+                const walk = (x - startX) * 3; // Scroll speed
+                timeline.scrollLeft = scrollLeft - walk;
+            };
+
+            document.addEventListener('mousedown', handleMouseDown);
+            document.addEventListener('mouseleave', handleMouseLeave);
+            document.addEventListener('mouseup', handleMouseUp);
+            document.addEventListener('mousemove', handleMouseMove);
+
+            const timelineItems = document.querySelectorAll('.timeline-item');
+
+            timelineItems.forEach(item => {
+                item.addEventListener('mouseenter', function () {
+                    const year = this.getAttribute('data-year');
+                    const popup = this.querySelector('.popup');
+                    if (!popup.innerHTML) {  // Fetch data only if the popup is empty
+                        fetch(`/discoveries/${year}/`)
+                            .then(response => response.text())
+                            .then(data => {
+                                popup.innerHTML = data;
+                            });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
