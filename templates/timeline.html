@@ -56,7 +56,8 @@
             align-items: center;
             width: 100%;
             height: 100%;
-            height:90px;
+           
+            top:40px;
             background-color:none;
             overflow: hidden;
             position: relative;
@@ -73,19 +74,21 @@
             padding-top: 5px;
             padding-bottom:10px;
             background-color:light-blue;
-           
+            top:250px;
+            height:5000px;
             position: relative;
         }
 
         .timeline-item {
             position: relative;
-            background-color: gray;
+           text-align: center;
             margin: 0 20px;
             padding-top:10px;
             padding-bottom:10px;
             border-radius: 5px;
             padding-right:10px;
-            
+            width: 70px;
+            height:200px;
             padding-left:10px;
             font-size: 20px; /* Ensures year size consistency */
             transition: background-color 0.3s;
@@ -94,18 +97,27 @@
         .timeline-item:hover {
             background-color: rgba(255, 255, 255, 0.1);
         }
+        .extra{
+        
+            width: 80px;
+            height:80px;
 
+        }
         .timeline-item .popup {
             display: none;
-            position: absolute;
-            height=5000px;
-            bottom: 25px;
+          
+            position:relative;
+            top:50px;
+            height=100%;
+            bottom: 0px;
             left: 50%;
             height:100%;
             transform: translateX(-50%);
             background: white;
+            opacity:60%;
             color: black;
             padding: 10px;
+       
             border-radius: 5px;
             white-space: normal;
             z-index: 10;
@@ -115,26 +127,7 @@
 
         .timeline-item:hover .popup {
             display: block;
-            height:5000px;
-            size: 90px;
-            color:black;
-
-            width:100px;
-            overflow:visible;
-            position: absolute;
-            height=5000px;
-            bottom: 25px;
-            left: 50%;
-            height:100%;
-            transform: translateX(-50%);
-            background: white;
-            color: black;
-            padding: 10px;
-            border-radius: 5px;
-            white-space: normal;
-            z-index: 10;
-            width: 200px;
-            overflow:auto;
+       
         }
             
         
@@ -144,6 +137,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
+            top:400px;
             height: 2px;
             background: white;
             z-index: 1;
@@ -153,22 +147,23 @@
             to { width: 100% }
           }
           .typed-out{
-            
+            align:center;
             overflow: hidden;
             border-right: .15em solid orange;
             white-space: nowrap;
             font-size: 1.6rem;
             width: 10;
-            animation: typing 2s steps(90, end) forwards, blink 1s step-end infinite;
+            animation: typing 3s steps(100, end) forwards, blink 1s step-end infinite;
         }
         .container {
-         
-            width: 800px;
+            align:center;
+           width: 1010px;
+           left:300px;
             top: 20px;
             position: absolute;
             color:white;
             
-            right:350px;
+         
             font-family: Serif; 
           }
           @keyframes blink {
@@ -179,21 +174,23 @@
 </head>
 <body>
     <div class= "container">
-        <div class="typed-out"> Learn about some of the most ground-breaking discoveries and inventions </div>
+        <div class="typed-out"> Learn about some of the most ground-breaking biological discoveries and inventions in history</div>
     </div>
     <div class="stars" id="stars"></div>
     <div class="timeline-container">
         <div class="timeline" id="timeline">
             {% for year in years %}
+            <div class= "extra">
             <div class="timeline-item" data-year="{{ year }}">
                 <div class="popup" id="popup-{{ year }}"></div>
                 <div class="year">{{ year }}</div>
-               
+            </div>
             </div>
             {% endfor %}
         </div>
-        <div class="horizontal-line"></div>
+     
     </div>
+    <div class="horizontal-line"></div>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
