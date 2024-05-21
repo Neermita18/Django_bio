@@ -12,7 +12,7 @@
     <style>
         body {
             display: flex;
-            justify-content: center;
+            
             align-items: center;
             min-height: 100vh;
             background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
@@ -65,7 +65,7 @@
         }
 
         .timeline {
-            overflow: scroll;
+            overflow: hidden;
             overflow-y: hidden;
             display: flex;
             white-space: nowrap;
@@ -116,10 +116,28 @@
         .timeline-item:hover .popup {
             display: block;
             height:5000px;
+            size: 90px;
+            color:black;
+
             width:100px;
             overflow:visible;
-            
+            position: absolute;
+            height=5000px;
+            bottom: 25px;
+            left: 50%;
+            height:100%;
+            transform: translateX(-50%);
+            background: white;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: normal;
+            z-index: 10;
+            width: 200px;
+            overflow:auto;
         }
+            
+        
 
         .horizontal-line {
             position: absolute;
@@ -130,16 +148,47 @@
             background: white;
             z-index: 1;
         }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+          }
+          .typed-out{
+            
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            font-size: 1.6rem;
+            width: 10;
+            animation: typing 2s steps(90, end) forwards, blink 1s step-end infinite;
+        }
+        .container {
+         
+            width: 800px;
+            top: 20px;
+            position: absolute;
+            color:white;
+            
+            right:350px;
+            font-family: Serif; 
+          }
+          @keyframes blink {
+            0%, 100% { border-color: orange; }
+            50% { border-color: transparent; }
+        }
     </style>
 </head>
 <body>
+    <div class= "container">
+        <div class="typed-out"> Learn about some of the most ground-breaking discoveries and inventions </div>
+    </div>
     <div class="stars" id="stars"></div>
     <div class="timeline-container">
         <div class="timeline" id="timeline">
             {% for year in years %}
             <div class="timeline-item" data-year="{{ year }}">
-                <div class="year">{{ year }}</div>
                 <div class="popup" id="popup-{{ year }}"></div>
+                <div class="year">{{ year }}</div>
+               
             </div>
             {% endfor %}
         </div>
@@ -208,12 +257,16 @@
                 item.addEventListener('mouseenter', function () {
                     const year = this.getAttribute('data-year');
                     const popup = this.querySelector('.popup');
-                    if (!popup.innerHTML) {  // Fetch data only if the popup is empty
+                    if (!popup.innerHTML) {  //fetch data only if the popup is empty. do this everytime
                         fetch(`/discoveries/${year}/`)
-                            .then(response => response.text())
-                            .then(data => {
-                                popup.innerHTML = data;
-                            });
+                        .then(response => response.text())
+                        .then(data => {
+                            console.log('Retrieved data:', data); 
+                            popup.innerHTML = data; 
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data:', error); 
+                        });
                     }
                 });
             });

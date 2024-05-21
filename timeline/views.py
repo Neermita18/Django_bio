@@ -8,9 +8,17 @@ from .models import *
 
 def timeline(request):
 
-    years = range(1500, 2022)
+    years = range(1500, 2025)
     return render(request, 'timeline.html', {'years': years})
 
 def year(request, year):
-    discoveries = MoleculeDisc.objects.filter(date__year=year)
-    return render(request, 'discoveries.html', {'discoveries': discoveries})
+    d = MoleculeDisc.objects.filter(date__year=year).values('description')
+    print((d))
+    listd = list(d)
+    descriptions = [entry['description'] for entry in listd]
+    print(descriptions)
+    discoveries= ', '.join(descriptions)
+    print(discoveries)
+    print(f"Year: {year}, Discoveries: {discoveries}")
+    return HttpResponse(discoveries, content_type="text/plain")
+
