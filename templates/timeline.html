@@ -70,7 +70,7 @@
             overflow-y: hidden;
             display: flex;
             white-space: nowrap;
-            color: white;
+        
             padding-top: 5px;
             padding-bottom:10px;
             background-color:light-blue;
@@ -80,15 +80,17 @@
         }
 
         .timeline-item {
+            color:white;
             position: relative;
            text-align: center;
             margin: 0 20px;
-            padding-top:10px;
-            padding-bottom:10px;
+            padding-top:5px;
+            padding-bottom:0px;
             border-radius: 5px;
             padding-right:10px;
             width: 70px;
             height:200px;
+            top:45px;
             padding-left:10px;
             font-size: 20px; /* Ensures year size consistency */
             transition: background-color 0.3s;
@@ -107,7 +109,7 @@
             display: none;
           
             position:relative;
-            top:50px;
+            top:40px;
             height=100%;
             bottom: 0px;
             left: 50%;
@@ -120,13 +122,16 @@
        
             border-radius: 5px;
             white-space: normal;
-            z-index: 10;
+            font-size: 10pt;
+            font-weigth: 2;
             width: 200px;
             overflow:auto;
         }
 
         .timeline-item:hover .popup {
             display: block;
+            timeline-item.color: none;
+          
        
         }
             
