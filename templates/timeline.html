@@ -10,9 +10,10 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        
         body {
             display: flex;
-            
+            position: relative;
             align-items: center;
             min-height: 100vh;
             background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
@@ -70,7 +71,7 @@
             overflow-y: hidden;
             display: flex;
             white-space: nowrap;
-        
+            padding-right:100px;
             padding-top: 5px;
             padding-bottom:10px;
             background-color:light-blue;
@@ -98,6 +99,8 @@
 
         .timeline-item:hover {
             background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            opacity:50%;
         }
         .extra{
         
@@ -152,18 +155,20 @@
             to { width: 100% }
           }
           .typed-out{
-            align:center;
+           position: absolute;
             overflow: hidden;
             border-right: .15em solid orange;
             white-space: nowrap;
             font-size: 1.6rem;
             width: 10;
+            top:40px;
+            left:200px;
             animation: typing 3s steps(100, end) forwards, blink 1s step-end infinite;
         }
         .container {
             align:center;
-           width: 1010px;
-           left:300px;
+           width: 990px;
+           left:140px;
             top: 20px;
             position: absolute;
             color:white;
@@ -175,12 +180,40 @@
             0%, 100% { border-color: orange; }
             50% { border-color: transparent; }
         }
+        .spline{
+            position:absolute;
+            top:0px;
+          left:0px;
+        }  
+        .nav{
+            position:absolute;
+         top: 640px;
+            left:660px;
+
+
+
+        } 
+        .column{
+            padding:15px;
+     
+        }
+        
+        
+            
+        
     </style>
+
 </head>
 <body>
     <div class= "container">
+        <div class= "spline">
+            <img src="/static/styles/sp.png" height=150px width= 200px>
+        </div>
+         
         <div class="typed-out"> Learn about some of the most ground-breaking biological discoveries and inventions in history</div>
+       
     </div>
+    
     <div class="stars" id="stars"></div>
     <div class="timeline-container">
         <div class="timeline" id="timeline">
@@ -197,7 +230,28 @@
     </div>
     <div class="horizontal-line"></div>
 
+    <div class="nav">
+        <div class="row">
+            <div class="column">
+                <a href="https://github.com/Neermita18">
+                    <img src="/static/styles/git.png" height="40px" width="40px">
+                </a>
+            </div>
+            <div class="column">
+                <a href="https://www.linkedin.com/in/neermita-bhattacharya-6317511b0/">
+                    <img src="/static/styles/in.png" height="40px" width="40px">
+                </a>
+            </div>
+            <div class="column">
+                <a href="mailto:nemowbio@gmail.com">
+                    <img src="/static/styles/em.png" height="40px" width="40px">
+                </a>
+            </div>
+        </div>
+    </div>
+    
     <!-- Bootstrap JS and dependencies -->
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -274,5 +328,6 @@
             });
         });
     </script>
+
 </body>
 </html>
